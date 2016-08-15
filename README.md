@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/ibm-cloud-solutions/hubot-ibmcloud-cognitive-ui.svg?branch=master)](https://travis-ci.org/ibm-cloud-solutions/hubot-ibmcloud-cognitive-ui)
+[![Dependency Status](https://dependencyci.com/github/ibm-cloud-solutions/hubot-ibmcloud-cognitive-ui/badge)](https://dependencyci.com/github/ibm-cloud-solutions/hubot-ibmcloud-cognitive-ui)
+
 # hubot-ibmcloud-cognitive-ui
 
 This repository delivers a UI for cognitive training of a bot that has been instrumented with [hubot-ibmcloud-cognitive-lib](http://github.com/ibm-cloud-solutions/hubot-ibmcloud-cognitive-lib)
