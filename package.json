@@ -1,0 +1,68 @@
+{
+  "name": "hubot-ibmcloud-cognitive-ui",
+  "version": "0.0.2",
+  "description": "UI for Cognitive Training",
+  "author": "ibm-cloud-solutions",
+  "scripts": {
+    "start": "node app.js",
+    "test": ". test/.env && mocha",
+    "lint": "eslint public/scripts/**/*.js routes/*.js test/**/*.js app.js",
+    "webpackwatch": "webpack --watch --progress --colors",
+    "start:dev": ". config/env && concurrently --kill-others -r \"npm run webpackwatch\" \"npm start\""
+  },
+  "dependencies": {
+    "blaze": "1.2.1",
+    "body-parser": "1.14.x",
+    "cloudant": "1.4.x",
+    "connect-multiparty": "2.0.x",
+    "dateformat": "^1.0.12",
+    "ejs": "2.4.x",
+    "errorhandler": "1.4.x",
+    "express": "4.13.x",
+    "json-loader": "^0.5.4",
+    "method-override": "2.3.x",
+    "mocha": "^2.4.5",
+    "morgan": "1.6.x",
+    "node-fetch": "^1.5.3",
+    "riotgear": "^3.5.0",
+    "socket.io": "1.4.8",
+    "socket.io-client": "1.4.8",
+    "whatwg-fetch": "^1.0.0",
+    "winston": "^2.2.0"
+  },
+  "repository": {
+    "url": "https://github.com/ibm-cloud-solutions/hubot-ibmcloud-cognitive-ui",
+    "type": "git"
+  },
+  "engines": {
+    "node": "4.x"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015-riot": "^1.1.0",
+    "chai": "^3.5.0",
+    "concurrently": "^2.2.0",
+    "css-loader": "^0.23.1",
+    "eslint": "^2.9.0",
+    "eslint-config-strongloop": "^2.0.1",
+    "fetch-mock": "^5.0.5",
+    "nock": "^8.0.0",
+    "riot": "^2.5.0",
+    "riotjs-loader": "^3.0.0",
+    "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0",
+    "style-loader": "^0.13.1",
+    "supertest": "^1.2.0",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "hubot",
+    "bluemix",
+    "cloud",
+    "ibm cloud",
+    "ibm"
+  ]
+}

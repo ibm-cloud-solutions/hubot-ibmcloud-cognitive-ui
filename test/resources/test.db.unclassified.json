@@ -1,0 +1,32 @@
+{ "total_rows": 442,
+	"offset": 272,
+	"rows": [{
+		"id": "9ED9075F-E3D7-FD7E-AB83-440B1C4E7461",
+		"key": ["unclassified",false],
+		"value": null,
+		"doc": {
+			"_id": "9ED9075F-E3D7-FD7E-AB83-440B1C4E7461",
+			"_rev":"4-adee2e64ee0aa98f842c2039a55d71d1",
+			"classification":{
+				"classifier_id":"cd02b5x110-nlc-5413",
+				"url":"https://gateway-s.watsonplatform.net/natural-language-classifier/api/v1/classifiers/cd02b5x110-nlc-5413",
+				"text":"I think it might rain and I will go the cinema",
+				"top_class":"weather.precipitation",
+				"classes":[{
+					"class_name":"weather.precipitation",
+					"confidence":0.4435946853846557
+					},
+					{
+					"class_name":"nlc.learn.detected",
+					"confidence":0.20997455857790281
+					},
+					{
+						"class_name":"nlc.train",
+						"confidence":0.048525835167492995
+					}
+				]},
+				"type":"unclassified",
+				"ts":1467831395620
+				}
+			}
+		]}

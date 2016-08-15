@@ -1,0 +1,14 @@
+{"_id":"9ED9075F-E3D7-FD7E-AB83-440B1C4E7461",
+	"_rev":"4-62dbd64e48d861d4e57dac0b8e6f394d",
+	"classification":{
+		"classifier_id":"e0f76fx163-nlc-120",
+		"url":"https://gateway-s.watsonplatform.net/natural-language-classifier/api/v1/classifiers/e0f76fx163-nlc-120",
+		"text":"hubot can you list my apps?",
+		"top_class":"app.list",
+		"classes":[
+			{"class_name":"app.list","confidence":0.9742296935515904}
+		]},
+		"type":"unclassified",
+		"ts":1468443525306,
+		"selectedClass":"app.list"
+	}

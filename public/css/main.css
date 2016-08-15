@@ -1,0 +1,66 @@
+.acceptBtn {
+	position: relative;
+	float: right;
+	background-image: url("../images/accept.png");
+	width: 18px;
+	height: 15px;
+	cursor: pointer;
+	display: inline-block;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.deleteBtn {
+	position: relative;
+	float: right;
+	background-image: url("../images/remove.png");
+	width: 19px;
+	height: 15px;
+	cursor: pointer;
+	display: inline-block;
+	/* right: 10px; */
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+.addBtn {
+	position: relative;
+	float: right;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+.nlc_select {
+	height: 30px;
+}
+
+.table__body .table__row:hover, .table--striped :not(.table__row--heading).table__row:nth-of-type(odd):hover {
+	background-color: #ddd;
+}
+
+.table__row--heading .table__cell.table__cell--small, .table__cell.table__cell--small {
+	-webkit-flex: initial;
+	flex: initial;
+	width: 80px;
+}
+.card__content.card__content--body {
+	height: 400px;
+	overflow: auto;
+}
+.panel-container {
+	height: 450px;
+	overflow: auto;
+}
+rg-pagination {
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+}
+.nlc_select {
+	font-size: 1em;
+	width: 100%;
+}
