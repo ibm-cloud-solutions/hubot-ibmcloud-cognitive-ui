@@ -5,8 +5,6 @@
 * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 */
 
-'use strict';
-
 const express = require('express');
 const routes = require('./routes');
 const http = require('http');
@@ -225,12 +223,12 @@ app.get('/api/favorites/learned/:db_name', function(request, response) {
 			return b.ts - a.ts;
 		});*/
 		// response.send(docList);
-	}
-	else {
-		logger.error('Error getting view results', err);
-		response.status(500).send(`Error getting view results: ${err.message}`);
-	}
-});
+		}
+		else {
+			logger.error('Error getting view results', err);
+			response.status(500).send(`Error getting view results: ${err.message}`);
+		}
+	});
 });
 
 app.get('/api/favorites/unclassified/:db_name', function(request, response) {
@@ -269,12 +267,12 @@ app.get('/api/favorites/unclassified/:db_name', function(request, response) {
 			return b.ts - a.ts;
 		});*/
 		// response.send(docList);
-	}
-	else {
-		logger.error('Error getting view results', err);
-		response.status(500).send(`Error getting view results: ${err.message}`);
-	}
-});
+		}
+		else {
+			logger.error('Error getting view results', err);
+			response.status(500).send(`Error getting view results: ${err.message}`);
+		}
+	});
 });
 
 
@@ -310,12 +308,12 @@ app.get('/api/favorites/approved/:db_name', function(request, response) {
 			return b.approved - a.approved;
 		});*/
 		// response.send(docList);
-	}
-	else {
-		logger.error(err);
-		response.status(500).send(`Error getting view results: ${err.message}`);
-	}
-});
+		}
+		else {
+			logger.error(err);
+			response.status(500).send(`Error getting view results: ${err.message}`);
+		}
+	});
 });
 
 app.get('/api/favorites/stats/:db_name', function(request, response) {
