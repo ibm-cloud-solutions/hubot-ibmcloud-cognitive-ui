@@ -1,3 +1,5 @@
+/* eslint strict: "off" */
+'use strict';
 /*
 * Licensed Materials - Property of IBM
 * (C) Copyright IBM Corp. 2016. All Rights Reserved.
@@ -16,7 +18,7 @@ const Cloudant = require('cloudant');
 const winston = require('winston');
 
 const app = express();
-let cloudant;
+
 
 const logger = new winston.Logger({
 	transports: [
@@ -37,9 +39,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
-let me = env.username;
-let pass = env.userpass;
-cloudant = Cloudant({account: me, password: pass});
+let cloudant = Cloudant({account: env.username, password: env.userpass});
 
 function listAllDbs() {
 	let db;
