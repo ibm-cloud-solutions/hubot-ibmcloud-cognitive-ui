@@ -10,7 +10,9 @@ const settings = {
 	dbHost: process.env.CLOUDANT_HOST,
 	dbPassword: process.env.CLOUDANT_PASSWORD,
 	dbName: process.env.CLOUDANT_DB_NAME,
-	dbKey: process.env.CLOUDANT_KEY
+	dbKey: process.env.CLOUDANT_KEY,
+	username: process.env.CLOUDANT_USER,
+	userpass: process.env.CLOUDANT_PASS
 };
 
 // gracefully output message and exit if any required config is undefined
