@@ -4,15 +4,15 @@
   * US Government Users Restricted Rights - Use, duplication or
   * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
   */
+	/* eslint strict: "off" */
 'use strict';
-
 const nock = require('nock');
 const path = require('path');
 nock.disableNetConnect();
 nock.enableNetConnect('127.0.0.1');
 // nock.recorder.rec();
 
-const endpoint = 'https://' + process.env.CLOUDANT_HOST;
+const endpoint = 'HTTPS://' + process.env.CLOUDANT_USERNAME + '.cloudant.com';
 
 // const dbListResults = require(path.resolve(__dirname, 'resources', 'test.db.list.json'));
 // const dbDocResults = require(path.resolve(__dirname, 'resources', 'test.db.doc.json'));

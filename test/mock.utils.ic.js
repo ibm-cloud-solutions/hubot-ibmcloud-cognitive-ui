@@ -4,8 +4,8 @@
   * US Government Users Restricted Rights - Use, duplication or
   * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
   */
+/* eslint strict: "off" */
 'use strict';
-
 const nock = require('nock');
 nock.disableNetConnect();
 nock.enableNetConnect('127.0.0.1');

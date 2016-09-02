@@ -18,30 +18,52 @@ function handleErrors(response, observable) {
 
 /*
 module.exports.getDBData = function(path, observable, startkey_docid, limit){
-	if (startkey_docid && count)
-		path = `${path}?startkey_docid=${startkey_docid}&limit=${limit}`;
-	return fetch(path)
-		.then((response) => handleErrors(response, observable))
-		.then((response) => {
-			return response.json();
-		})
-		.catch(function(e){
-			console.log('getDBData failed');
-		});
+if (startkey_docid && count)
+path = `${path}?startkey_docid=${startkey_docid}&limit=${limit}`;
+return fetch(path)
+.then((response) => handleErrors(response, observable))
+.then((response) => {
+return response.json();
+})
+.catch(function(e){
+console.log('getDBData failed');
+});
 };*/
 
+
+module.exports.getDBs = function(observable) {
+	return fetch('/api/dbs/')
+	.then((response) => handleErrors(response, observable))
+	.then((response) => {
+		console.log('getDBs returnes ' + response.json);
+		return response.json();
+	})
+	.catch(function(e) {
+		console.log('getDBs failed');
+	});
+};
+module.exports.loadRequestedDB = function(db, observable) {
+	return fetch('/api/loadDB/' + db)
+	.then((response) => handleErrors(response, observable))
+	.then((response) => {
+		return response.json;
+	})
+	.catch(function(e) {
+		console.log('loadRequestedDB failed');
+	});
+};
 module.exports.getDBData = function(path, observable, page, limit){
 	if (page && limit) {
 		path = `${path}?page=${page}&limit=${limit}`;
 	}
 	return fetch(path)
-		.then((response) => handleErrors(response, observable))
-		.then((response) => {
-			return response.json();
-		})
-		.catch(function(e){
-			console.log('getDBData failed');
-		});
+	.then((response) => handleErrors(response, observable))
+	.then((response) => {
+		return response.json();
+	})
+	.catch(function(e){
+		console.log('getDBData failed');
+	});
 };
 
 module.exports.putDBData = function(url, data, observable){
@@ -86,7 +108,7 @@ module.exports.deleteDBData = function(url, id, observable){
 	});
 };
 
-module.exports.deleteItem = function(doc, data, observable){
+module.exports.deleteItem = function(doc, data, db_name, observable){
 	return new Promise((resolve, reject) => {
 		const newData = data.filter(function(el){
 			if (el.id){
@@ -94,7 +116,7 @@ module.exports.deleteItem = function(doc, data, observable){
 			}
 			else {
 				if ((el.newText === doc.newText)
-					&& (el.newSelectedClass === doc.newSelectedClass)){
+				&& (el.newSelectedClass === doc.newSelectedClass)){
 					return false;
 				}
 				else {
@@ -104,7 +126,7 @@ module.exports.deleteItem = function(doc, data, observable){
 		});
 
 		if (doc.id){
-			return self.deleteDBData('/api/favorites', doc.id, observable).then(() => {
+			return self.deleteDBData('/api/favorites/' + db_name, doc.id, observable).then(() => {
 				resolve(newData);
 			});
 		}
@@ -114,22 +136,20 @@ module.exports.deleteItem = function(doc, data, observable){
 	});
 };
 
-module.exports.acceptItem = function(doc, observable) {
+module.exports.acceptItem = function(doc, db_name, observable) {
 	doc.approved = Date.now();
 	if (doc.newText){
 		doc.text = doc.newText;
 		delete doc.newText;
 	}
-
 	if (doc.newSelectedClass){
 		doc.selectedClass = doc.newSelectedClass;
 		delete doc.newSelectedClass;
 	}
-
 	if (doc.id){
-		return self.putDBData('/api/favorites', doc, observable);
+		return self.putDBData('/api/favorites/' + db_name, doc, observable);
 	}
 	else {
-		return self.postDBData('/api/favorites', doc, observable);
+		return self.postDBData('/api/favorites/' + db_name, doc, observable);
 	}
 };
