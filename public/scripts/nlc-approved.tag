@@ -76,7 +76,7 @@
 		});
 
 		self.acceptItem = function(ev) {
-			return util.acceptItem(ev.item.doc, self.observable).then(() => {
+			return util.acceptItem(ev.item.doc, self.db_name, self.observable).then(() => {
 				self.update({
 					showTable: showTable,
 					data: data
@@ -144,7 +144,7 @@
 
 		self.deleteItem = function(ev) {
 			let doc = ev.item.doc
-			util.deleteItem(doc, data, self.observable).then(() => {
+			util.deleteItem(doc, data, self.db_name, self.observable).then(() => {
 				self.data = [];
 				return self.loadApproved();
 			});

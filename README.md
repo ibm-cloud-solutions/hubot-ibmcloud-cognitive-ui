@@ -28,25 +28,15 @@ Beyond the UI implemented in this project is a lot of interaction with the [Clou
 
   <img src="/docs/images/BluemixCloudantLaunch.png" width="500">
 
-  Click `Service Credentials` in the left panel.  The values for `host`, `username` and `password` will map to several environment variables needed shortly.
+  Click `Service Credentials` in the left panel.  The values for `username` and `password` will map to several environment variables needed shortly.
 
-2. Identify the Cloudant key and database value.<br>
-  From the same dashboard listed in the previous step, click the `Launch` button to bring up the Cloudant dashboard.  You should see something like the following:
+2. Per the values above, update the environment variable settings in the file `config/env`.
 
-  <img src="/docs/images/CloudantDashboard.png" width="400">
-
-  With `Databases` selected on the left, find the name of the database that was created and associated with `hubot-ibmcloud-cognitive-lib`.  Click on that name to see the details.  Then click `Permissions` where you'll find the API Key on the right.  Both the database name and API key are used below.
-
-3. Per the values above, update the environment variable settings in the file `config/env`.
-
-        export CLOUDANT_HOST=<Cloudant credentials value for "host">
-		export CLOUDANT_USER=<Cloudant credentials value for "username">
+		    export CLOUDANT_USERNAME=<Cloudant credentials value for "username">
         export CLOUDANT_PASSWORD=<Cloudant credentials value for "password">
-        export CLOUDANT_KEY=<Cloudant API key>
-        export CLOUDANT_DB_NAME=<Cloudant database name>
         export PORT=<Optional Port, default is 3000>
 
-4. Run `npm install` to obtain all the dependent node modules.
+3. Run `npm install` to obtain all the dependent node modules.
 
 ## Running the UI Locally
 

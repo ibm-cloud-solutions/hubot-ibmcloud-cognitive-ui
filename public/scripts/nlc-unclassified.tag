@@ -188,7 +188,6 @@
 		let doc = ev.item.doc;
 		// get new class value
 		doc.newSelectedClass = this[`${doc.id}_class`].value;
-		window.alert("accept item " + self.db_name);
 		return util.acceptItem(doc, self.db_name, self.observable).then(() => {
 			self.data = [];
 			return self.loadUnclassified();
