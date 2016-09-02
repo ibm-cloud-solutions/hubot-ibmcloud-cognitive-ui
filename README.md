@@ -32,7 +32,7 @@ Beyond the UI implemented in this project is a lot of interaction with the [Clou
 
 2. Per the values above, update the environment variable settings in the file `config/env`.
 
-		    export CLOUDANT_USERNAME=<Cloudant credentials value for "username">
+        export CLOUDANT_USERNAME=<Cloudant credentials value for "username">
         export CLOUDANT_PASSWORD=<Cloudant credentials value for "password">
         export PORT=<Optional Port, default is 3000>
 

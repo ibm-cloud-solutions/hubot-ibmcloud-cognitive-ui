@@ -1,11 +1,9 @@
-/* eslint strict: "off" */
-'use strict';
 /*
-* Licensed Materials - Property of IBM
-* (C) Copyright IBM Corp. 2016. All Rights Reserved.
-* US Government Users Restricted Rights - Use, duplication or
-* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-*/
+  * Licensed Materials - Property of IBM
+  * (C) Copyright IBM Corp. 2016. All Rights Reserved.
+  * US Government Users Restricted Rights - Use, duplication or
+  * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+  */
 
 const express = require('express');
 const routes = require('./routes');
@@ -74,15 +72,6 @@ function listAllDbs() {
 app.get('/api/dbs/', function(request, response) {
 	return listAllDbs().then(dbs => response.send(dbs));
 });
-
-// app.get('/api/loadDB/:currentDB', function(request, response) {
-// 	//	initDBConnection(request.params.currentDB);
-// 	response.status(200).send('OK');
-// });
-
-// let initDBConnection = function(currentdb) {
-// 	db = cloudant.use(currentdb);
-// };
 
 app.get('/', routes.index);
 

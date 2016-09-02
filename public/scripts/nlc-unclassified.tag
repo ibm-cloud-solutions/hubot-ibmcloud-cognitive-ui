@@ -26,10 +26,14 @@
 								<tr each={ doc in data } class='table__row' onmouseenter={ showLogsEvent } onmouseleave={ hideLogsEvent }>
 									<td id='text' class='table__cell' contenteditable='true' data-ph='Text' onkeyup='{ editItem }'>{ doc.text }</td>
 									<td id='classification' class='table__cell'>
-										<input name='{doc.id}_class' type='text' class='nlc_select' list='{ doc.id }_classes' placeholder='{ doc.selectedClass}'>
-											<datalist id='{ doc.id }_classes'>
-												<option each={cls in doc.classes} value='{ cls.class_name }'>
-												</datalist>
+										<div class='drop_down'>
+											<select class='drop_down--select' onchange={ selectItem }>
+											   <option></option>
+												 <option each={cls in doc.classes} value='{ cls.class_name }'>{ cls.class_name }</option>
+											</select>
+											<input class='drop_down--input' id='{doc.id}_class_input' placeholder="add/select a value" type="text">
+											<input name='{doc.id}_idValue' id="idValue" type="hidden">
+										</div>
 											</td>
 											<td class='table__cell table__cell--small'><span class='acceptBtn' onclick={ acceptItem } title='Accept me'></span></td>
 											<td class='table__cell table__cell--small'><span class='deleteBtn' onclick={ deleteItem } title='Delete me'></span></td>
@@ -53,111 +57,110 @@
 					</div>
 				</div>
 			</div>
-			<script>
-			const util = require('./util');
-			const dblogin = require('./db-login.tag');
-			const self = this;
-			let data = [];
-			let logs = [];
-			let showLogs = false;
-			let showTable = false;
-			let pager = {
-				page: 1,
-				pages: 1
+	<script>
+	const util = require('./util');
+	const dblogin = require('./db-login.tag');
+	const self = this;
+	let data = [];
+	let logs = [];
+	let showLogs = false;
+	let showTable = false;
+	let pager = {
+		page: 1,
+		pages: 1
+	}
+	let loadPage = false;
+	let db_name ;
+	const limit = 10;
+	self.mixin('hub');
+
+	self.observable.on('newDBLoad', function(db){
+		self.update({
+			loadPage: true,
+			db_name: db,
+			data: []
+		});
+		if (showTable ){
+			self.loadUnclassified();
+		}
+	});
+
+	self.observable.on('tab', function(tab){
+		if (tab.name === 'unclassified'){
+			showTable = true;
+			if (self.db_name) {
+				self.loadUnclassified();
 			}
-			let loadPage = false;
-			let db_name ;
-			const limit = 10;
-			self.mixin('hub');
-
-			self.observable.on('newDBLoad', function(db){
-				self.update({
-					loadPage: true,
-					db_name: db,
-					data: []
-				});
-				if (showTable ){
-					self.loadUnclassified();
-				}
-			});
-
-			self.observable.on('tab', function(tab){
-				if (tab.name === 'unclassified'){
-					showTable = true;
-					if (self.db_name) {
-						self.loadUnclassified();
-					}
-				}
-				else {
-					showTable = false;
-					self.update({
-						showTable: false
-					})
-				}
-			});
-
-			self.loadUnclassified = function() {
-				if (self.data.length > 0){
-					self.update({
-						showTable: true
-					});
-					self.observable.trigger('refreshPager', self.pager);
-				}
-				else {
-					self.update({
-						showTable: false
-					});
-					self.observable.trigger('startSpinning');
-					var url = `/api/favorites/unclassified/` + self.db_name;
-					util.getDBData(url, self.observable, 1, limit).then(function(res) {
-						data = res.data;
-						self.observable.trigger('stopSpinning');
-						self.update({
-							showTable: true,
-							data: data,
-							pager: {
-								pages: Math.round(res.numDocs / limit),
-								page: 1
-							}
-						});
-						self.observable.trigger('refreshPager', self.pager);
-					});
-				}
-			};
-			self.showLogsEvent = function(ev) {
-				self.update({
-					logs: ev.item.doc.logs,
-					showLogs: true
-				})
-			}
-
-			self.observable.on('page', function(page){
-				if (self.showTable) {
-					self.update({
-						showTable: false
-					})
-					self.observable.trigger('startSpinning');
-					util.getDBData(`/api/favorites/unclassified/` + self.db_name, self.observable, page, limit).then(function(res) {
-						data = res.data;
-						self.observable.trigger('stopSpinning');
-						self.update({
-							showTable: true,
-							data: data,
-							pager: {
-								pages: Math.round(res.numDocs / limit),
-								page: page
-							}
-						});
-					});
-				}
-			});
-			/*
-			self.hideLogsEvent = function(ev) {
+		}
+		else {
+			showTable = false;
 			self.update({
-			logs: [],
-			showLogs: false
+				showTable: false
+			})
+		}
+	});
+
+	self.loadUnclassified = function() {
+		if (self.data.length > 0){
+			self.update({
+				showTable: true
+			});
+			self.observable.trigger('refreshPager', self.pager);
+		}
+		else {
+			self.update({
+				showTable: false
+			});
+			self.observable.trigger('startSpinning');
+			var url = `/api/favorites/unclassified/` + self.db_name;
+			util.getDBData(url, self.observable, 1, limit).then(function(res) {
+				data = res.data;
+				self.observable.trigger('stopSpinning');
+				self.update({
+					showTable: true,
+					data: data,
+					pager: {
+						pages: Math.round(res.numDocs / limit),
+						page: 1
+					}
+				});
+				self.observable.trigger('refreshPager', self.pager);
+			});
+		}
+	};
+	self.showLogsEvent = function(ev) {
+		self.update({
+			logs: ev.item.doc.logs,
+			showLogs: true
 		})
-	}*/
+	}
+
+	self.observable.on('page', function(page){
+		if (self.showTable) {
+			self.update({
+				showTable: false
+			})
+			self.observable.trigger('startSpinning');
+			util.getDBData(`/api/favorites/unclassified/` + self.db_name, self.observable, page, limit).then(function(res) {
+				data = res.data;
+				self.observable.trigger('stopSpinning');
+				self.update({
+					showTable: true,
+					data: data,
+					pager: {
+						pages: Math.round(res.numDocs / limit),
+						page: page
+					}
+				});
+			});
+		}
+	});
+
+	self.selectItem = function(ev) {
+		let id = ev.item.doc.id;
+		document.getElementById(id + '_class_input').value = ev.target.options[ev.target.selectedIndex].text;
+		document.getElementById(id + '_idValue').value = ev.target.options[ev.target.selectedIndex].value;
+	};
 
 	self.acceptItem = function(ev) {
 		let doc = ev.item.doc;

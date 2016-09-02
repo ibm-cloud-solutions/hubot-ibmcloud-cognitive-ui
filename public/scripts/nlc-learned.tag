@@ -112,6 +112,12 @@
 				});
 			};
 
+			self.selectItem = function(ev) {
+				let id = ev.item.doc.id;
+				document.getElementById(id + '_class_input').value = ev.target.options[ev.target.selectedIndex].text;
+				document.getElementById(id + '_idValue').value = ev.target.options[ev.target.selectedIndex].value;
+			};
+
 			self.deleteItem = function(ev) {
 				let doc = ev.item.doc;
 				util.deleteItem(doc, data, self.db_name, self.observable).then(() => {
