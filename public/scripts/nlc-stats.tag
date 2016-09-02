@@ -10,7 +10,7 @@
 <nlc-stats>
 	<div>
 		<h3 if={ showRate } class='heading heading--small' style='text-align: center'>
-			{ successRate }% correctly classified
+			{ successRate }% of the statements have been classified with high confidence
 		</h3>
 	</div>
 	<script>

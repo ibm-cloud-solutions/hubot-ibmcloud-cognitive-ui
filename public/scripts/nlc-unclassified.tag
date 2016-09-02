@@ -9,6 +9,12 @@
 
 <nlc-unclassified>
 	<div class='container container--xlarge'>
+		<div if={ showTable }>
+			<p class='instructions'>Statements matched by the Natural Language Classifier with <b>low</b>
+			confidence come here. To add a statement to the Training List, first add/select a class under the Classification column.
+			Then click the accept checkmark to approve that statement and class. Once approved it will be shown in the Approved Tab
+			and will be added to the NLC Classifier the <b>next</b> time the bot is trained.</p>
+		</div>
 		<div if={ showTable } class='grid'>
 			<div class='grid__cell--width-70'>
 				<div class='panel-container'>
@@ -17,7 +23,7 @@
 							<thead class='table__head'>
 								<tr class='table__row table__row--heading'>
 									<th class='table__cell'>Statement</th>
-									<th class='table__cell'>Top Classifications</th>
+									<th class='table__cell'>Classification</th>
 									<th class='table__cell table__cell--small'>Accept</th>
 									<th class='table__cell table__cell--small'>Delete</th>
 								</tr>
@@ -31,35 +37,33 @@
 											   <option></option>
 												 <option each={cls in doc.classes} value='{ cls.class_name }'>{ cls.class_name }</option>
 											</select>
-											<input class='drop_down--input' id='{doc.id}_class_input' placeholder="add/select a value" type="text">
-											<input name='{doc.id}_idValue' id="idValue" type="hidden">
+											<input class='drop_down--input' id='{doc.id}_class_input' placeholder="add/select a class" type="text"></input>
 										</div>
-											</td>
-											<td class='table__cell table__cell--small'><span class='acceptBtn' onclick={ acceptItem } title='Accept me'></span></td>
-											<td class='table__cell table__cell--small'><span class='deleteBtn' onclick={ deleteItem } title='Delete me'></span></td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
+										</td>
+										<td class='table__cell table__cell--small'><span class='acceptBtn' onclick={ acceptItem } title='Accept me'></span></td>
+										<td class='table__cell table__cell--small'><span class='deleteBtn' onclick={ deleteItem } title='Delete me'></span></td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
-					<div class='grid__cell'>
-						<div class='card card--primary'>
-							<div class='card__content card__content--divider'>Conversation Logs</div>
-							<div class='card__content card__content--body'>
-								<ul if={ showLogs }>
-									<li each={ line in logs }>
-										{ line }
-									</li>
-								</ul>
-							</div>
+				</div>
+				<div class='grid__cell'>
+					<div class='card card--primary'>
+						<div class='card__content card__content--divider'>Conversation Logs</div>
+						<div class='card__content card__content--body'>
+							<ul if={ showLogs }>
+								<li each={ line in logs }>
+									{ line }
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 	<script>
 	const util = require('./util');
-	const dblogin = require('./db-login.tag');
 	const self = this;
 	let data = [];
 	let logs = [];
@@ -159,17 +163,6 @@
 	self.selectItem = function(ev) {
 		let id = ev.item.doc.id;
 		document.getElementById(id + '_class_input').value = ev.target.options[ev.target.selectedIndex].text;
-		document.getElementById(id + '_idValue').value = ev.target.options[ev.target.selectedIndex].value;
-	};
-
-	self.acceptItem = function(ev) {
-		let doc = ev.item.doc;
-		return util.acceptItem(doc, self.observable).then(() => {
-			self.update({
-				showTable: showTable,
-				data: data
-			});
-		});
 	};
 
 	self.deleteItem = function(ev) {
@@ -190,7 +183,7 @@
 	self.acceptItem = function(ev) {
 		let doc = ev.item.doc;
 		// get new class value
-		doc.newSelectedClass = this[`${doc.id}_class`].value;
+		doc.newSelectedClass = this[`${doc.id}_class_input`].value;
 		return util.acceptItem(doc, self.db_name, self.observable).then(() => {
 			self.data = [];
 			return self.loadUnclassified();

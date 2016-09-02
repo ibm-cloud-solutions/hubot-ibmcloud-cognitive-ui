@@ -9,8 +9,13 @@
 
 <nlc-approved>
 	<div class='container container--xlarge'>
+		<div if={ showTable }>
+			<p class='instructions'>These statements have either been approved
+				through this application or have been "auto-approved" through your bot. These statements will be
+				added to the NLC Classifier the <b>next</b> time the bot is trained. You can edit or delete any of
+				these statements here.</p>
+		</div>
 		<table if={ showTable } class='table table--striped'>
-			<caption class='table__caption'>Approved</caption>
 			<thead class='table__head'>
 				<tr class='table__row table__row--heading'>
 					<th class='table__cell'>Text</th>
