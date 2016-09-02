@@ -5,6 +5,9 @@
   * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
   */
 
+/* eslint strict: "off" */
+'use strict';
+
 const express = require('express');
 const routes = require('./routes');
 const http = require('http');
