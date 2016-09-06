@@ -9,9 +9,6 @@
 
 <app-navi>
 	<div class='container container--xlarge'>
-		<h1 class='heading heading--small'>
-			IBM Cloud Solutions - Language Training Center
-		</h1>
 		<span class='badge badge--primary' style='float:right'>{ version }</span>
 		<div>
 			<rg-tabs name='tabs' tabs='{ rgOpts.tabs }' opts='{ rgOpts.opts }'></rg-tabs>
@@ -32,7 +29,7 @@
 		 */
 		self.rgOpts = {
 			tabs: {
-				type: 'primary|secondary|success|error',
+				type: 'primary',
 				tabs: [{
 					name: 'approved',
 					heading: 'Approved'

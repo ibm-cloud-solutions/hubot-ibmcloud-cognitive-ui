@@ -1,5 +1,6 @@
 /* eslint strict: "off" */
 'use strict';
+
 const app = require('../app');
 const request = require('supertest')(app);
 const mockDBUtils = require('./mock.utils.db.js');
