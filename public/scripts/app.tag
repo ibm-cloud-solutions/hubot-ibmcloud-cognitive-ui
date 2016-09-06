@@ -18,9 +18,11 @@ require('./nlc-pages.tag');
 require('./db-login.tag');
 
 <app>
-	<h1 class='heading heading--small'>
-		IBM Cloud Solutions - Language Training Center
-	</h1>
+	<div class='container container--xlarge'>
+		<h1 class='heading heading--small'>
+			IBM Cloud Solutions - Language Training Center
+		</h1>
+	</div>
 	<db-login/>
 	<app-navi/>
 	<nlc-error/>
