@@ -21,6 +21,7 @@
             "single"
         ],
         "max-len": 0,
+        "no-var": "error",
         "semi": [
             "error",
             "always"
