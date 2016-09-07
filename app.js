@@ -271,7 +271,7 @@ app.get('/api/favorites/unclassified/:db_name', function(request, response) {
 app.get('/api/favorites/approved/:db_name', function(request, response) {
 	logger.debug('Get approved method invoked.. ');
 	let db = cloudant.use(request.params.db_name);
-	db.view('getByType', 'getByApproved', {keys: [['learned', true], ['unclassified', true]], include_docs: true}, function(err, body) {
+	db.view('getByType', 'getByApproved', {keys: [['learned', true], ['unclassified', true]], include_docs: true, limit: request.query.limit, skip: (request.query.page - 1) * (request.query.limit)}, function(err, body) {
 		if (!err) {
 			let docList = [];
 			let totalApproved = 0;
@@ -284,7 +284,7 @@ app.get('/api/favorites/approved/:db_name', function(request, response) {
 				};
 				docList.push(responseData);
 			});
-			db.view('getByType', 'getByApproved', {keys: [['learned', false]]}, function(err, body) {
+			db.view('getByType', 'getByApproved', {keys: [['learned', true], ['unclassified', true]] }, function(err, body) {
 				if (!err) {
 					logger.debug(`not classified: ${body.rows.length}`);
 					totalApproved = body.rows.length;

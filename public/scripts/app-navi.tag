@@ -11,7 +11,14 @@
 	<div class='container container--xlarge'>
 		<span class='badge badge--primary' style='float:right'>{ version }</span>
 		<div>
-			<rg-tabs name='tabs' tabs='{ rgOpts.tabs }' opts='{ rgOpts.opts }'></rg-tabs>
+			<div class="tabs a-tabs a-tabs--slow tabs--primary" onclick="{ selectedTab }">
+				<div class="tabs__headings" >
+					<div id="approved" class="tab-heading approved">Approved</div>
+					<div id="learned" class="tab-heading learned">Learned</div>
+					<div id="unclassified" class="tab-heading unclassified tab-heading--active">Unclassified</div>
+					<div id="statistics" class="tab-heading statistics">Statistics</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -24,33 +31,10 @@
 		// subscribe to the event hub
 		self.mixin('hub');
 
-		/*
-		 * TABS
-		 */
-		self.rgOpts = {
-			tabs: {
-				type: 'primary',
-				tabs: [{
-					name: 'approved',
-					heading: 'Approved'
-				}, {
-					name: 'learned',
-					heading: 'Learned'
-				}, {
-					name: 'unclassified',
-					heading: 'Unclassified',
-					active: true
-				}, {
-					name: 'statistics',
-					heading: 'Statistics'
-				}]
-			}
-		};
-
 		// add event handlers
-		self.tags.tabs.on('open', function(tab){
-			self.observable.trigger('tab', tab);
-		});
+		// self.tags.tabs.on('open', function(){
+		// 	self.observable.trigger('tab', );
+		// });
 
 		self.on('mount', function(){
 			// trigger active tab
@@ -58,6 +42,19 @@
 				name: 'unclassified'
 			});
 		});
+		self.selectedTab = function(ev) {
+			let val = '.' + ev.target.id;
+			document.querySelector('.approved').classList.remove('tab-heading--active');
+			document.querySelector('.learned').classList.remove('tab-heading--active');
+			document.querySelector('.unclassified').classList.remove('tab-heading--active');
+			document.querySelector('.statistics').classList.remove('tab-heading--active');
+			document.querySelector(val).classList.add('tab-heading--active');
+
+
+			self.observable.trigger('tab', {
+				name: ev.target.id
+			});
+		};
 
 	</script>
 
