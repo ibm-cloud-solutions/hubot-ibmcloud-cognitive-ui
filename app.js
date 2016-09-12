@@ -40,7 +40,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
-let cloudant = Cloudant({account: env.username, password: env.userpass});
+let cloudant;
+let userflag = true;
 
 function listAllDbs() {
 	let db;
@@ -73,7 +74,18 @@ function listAllDbs() {
 	return p1;
 }
 app.get('/api/dbs/', function(request, response) {
-	return listAllDbs().then(dbs => response.send(dbs));
+	if (env.username) {
+		userflag = true;
+		cloudant = Cloudant({account: env.username, password: env.userpass});
+		return listAllDbs().then(dbs => response.send(dbs));
+	}
+	else {
+		userflag = false;
+		let url = `https://${env.dbKey}:${env.dbPassword}@${env.dbHost}`;
+		cloudant = Cloudant(url);
+		let list = [ env.dbName ];
+		response.send(list);
+	}
 });
 
 app.get('/', routes.index);
@@ -82,7 +94,13 @@ let saveDocument = function(id, data, db_name, response) {
 	if (id === undefined) {
 		id = '';
 	}
-	let db = cloudant.use(db_name);
+	let db;
+	if (userflag) {
+		db = cloudant.use(db_name);
+	}
+	else {
+		db = cloudant.use(env.dbName);
+	}
 	db.insert({
 		classification: {
 			text: data.text
@@ -102,13 +120,25 @@ let saveDocument = function(id, data, db_name, response) {
 
 app.post('/api/favorites/:db_name', function(request, response) {
 	logger.debug('Create Invoked..');
-	let db = request.params.db_name;
+	let db;
+	if (userflag) {
+		db = cloudant.use(request.params.db_name);
+	}
+	else {
+		db = cloudant.use(env.dbName);
+	}
 	saveDocument(null, request.body, db, response);
 });
 app.delete('/api/favorites/:db_name', function(request, response) {
 	let id = request.query.id;
 	logger.debug(`Delete Invoked.. ID: ${id}`);
-	let db = cloudant.use(request.params.db_name);
+	let db;
+	if (userflag) {
+		db = cloudant.use(request.params.db_name);
+	}
+	else {
+		db = cloudant.use(env.dbName);
+	}
 	db.get(id, { revs_info: true }, function(err, doc) {
 		if (!err) {
 			db.destroy(doc._id, doc._rev, function(err, res) {
@@ -126,7 +156,13 @@ app.delete('/api/favorites/:db_name', function(request, response) {
 app.put('/api/favorites/:db_name', function(request, response) {
 	let id = request.body.id;
 	logger.debug(`Update Invoked.. ID: ${id}`);
-	let db = cloudant.use(request.params.db_name);
+	let db;
+	if (userflag) {
+		db = cloudant.use(request.params.db_name);
+	}
+	else {
+		db = cloudant.use(env.dbName);
+	}
 	db.get(id, { revs_info: true }, function(err, doc) {
 		if (!err) {
 			doc.approved = request.body.approved;
@@ -182,7 +218,13 @@ let parseClasses = function(classes, selectedClass) {
 
 app.get('/api/favorites/learned/:db_name', function(request, response) {
 	logger.debug('Get learned type method invoked.. ');
-	let db = cloudant.use(request.params.db_name);
+	let db;
+	if (userflag) {
+		db = cloudant.use(request.params.db_name);
+	}
+	else {
+		db = cloudant.use(env.dbName);
+	}
 	db.view('getByType', 'getByApproved', {keys: [['learned', false]], include_docs: true}, function(err, body) {
 		if (!err) {
 			let docList = [];
@@ -225,7 +267,13 @@ app.get('/api/favorites/learned/:db_name', function(request, response) {
 
 app.get('/api/favorites/unclassified/:db_name', function(request, response) {
 	logger.debug('Get unclassified type method invoked.. ');
-	let db = cloudant.use(request.params.db_name);
+	let db;
+	if (userflag) {
+		db = cloudant.use(request.params.db_name);
+	}
+	else {
+		db = cloudant.use(env.dbName);
+	}
 	db.view('getByType', 'getByApproved', {keys: [['unclassified', false]], include_docs: true, limit: request.query.limit, skip: (request.query.page - 1) * (request.query.limit)}, function(err, body) {
 		if (!err) {
 			let docList = [];
@@ -270,7 +318,13 @@ app.get('/api/favorites/unclassified/:db_name', function(request, response) {
 
 app.get('/api/favorites/approved/:db_name', function(request, response) {
 	logger.debug('Get approved method invoked.. ');
-	let db = cloudant.use(request.params.db_name);
+	let db;
+	if (userflag) {
+		db = cloudant.use(request.params.db_name);
+	}
+	else {
+		db = cloudant.use(env.dbName);
+	}
 	db.view('getByType', 'getByApproved', {keys: [['learned', true], ['unclassified', true]], include_docs: true, limit: request.query.limit, skip: (request.query.page - 1) * (request.query.limit)}, function(err, body) {
 		if (!err) {
 			let docList = [];
@@ -312,7 +366,13 @@ app.get('/api/favorites/stats/:db_name', function(request, response) {
 	logger.debug('Get stats');
 	let numClassified = -1;
 	let numNotClassified = -1;
-	let db = cloudant.use(request.params.db_name);
+	let db;
+	if (userflag) {
+		db = cloudant.use(request.params.db_name);
+	}
+	else {
+		db = cloudant.use(env.dbName);
+	}
 	db.view('getByType', 'getByApproved', {keys: [['classified', false]]}, function(err, body) {
 		if (!err) {
 			logger.debug(`classified: ${body.rows.length}`);

@@ -6,6 +6,10 @@
   */
 
 const settings = {
+	dbHost: process.env.HUBOT_CLOUDANT_ENDPOINT,
+	dbPassword: process.env.HUBOT_CLOUDANT_PASSWORD,
+	dbName: process.env.HUBOT_CLOUDANT_DB,
+	dbKey: process.env.HUBOT_CLOUDANT_KEY,
 	username: process.env.CLOUDANT_USERNAME,
 	userpass: process.env.CLOUDANT_PASSWORD
 };
@@ -13,11 +17,11 @@ const settings = {
 // gracefully output message and exit if any required config is undefined
 
 
-if (!settings.username) {
-	console.error('CLOUDANT_USERNAME not set');
+if (!settings.username || !settings.userpass) {
+	console.log('CLOUDANT_USERNAME or CLOUDANT_PASSWORD not set');
 }
-if (!settings.userpass) {
-	console.error('CLOUDANT_PASSWORD not set');
+if (!settings.dbKey || !settings.dbName || !settings.dbPassword || !settings.dbHost) {
+	console.log('HUBOT_CLOUDANT not set');
 }
 
 module.exports = settings;

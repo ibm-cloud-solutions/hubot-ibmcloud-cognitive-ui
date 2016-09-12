@@ -30,13 +30,30 @@ Beyond the UI implemented in this project is a lot of interaction with the [Clou
 
   Click `Service Credentials` in the left panel.  The values for `username` and `password` will map to several environment variables needed shortly.
 
-2. Per the values above, update the environment variable settings in the file `config/env`.
+2. UI can either be used to view a single database or multiple databases available in your Cloudant account.
 
-        export CLOUDANT_USERNAME=<Cloudant credentials value for "username">
-        export CLOUDANT_PASSWORD=<Cloudant credentials value for "password">
-        export PORT=<Optional Port, default is 3000>
+3. Identify the Cloudant key and database value.<br>
+  From the same dashboard listed in the previous step, click the `Launch` button to bring up the Cloudant dashboard.  You should see something like the following:
 
-3. Run `npm install` to obtain all the dependent node modules.
+  <img src="/docs/images/CloudantDashboard.png" width="400">
+
+  With `Databases` selected on the left, find the name of the database that was created and associated with `hubot-ibmcloud-cognitive-lib`.  Click on that name to see the details.  Then click `Permissions` where you'll find the API Key on the right.  Both the database name and API key are used below.
+
+4. Per the values above, update the environment variable settings in the file `config/env`.
+  To view multiple databases from your Cloudant account, set the following environment variables.
+
+    export CLOUDANT_USERNAME=<Cloudant credentials value for "username">
+    export CLOUDANT_PASSWORD=<Cloudant credentials value for "password">
+    export PORT=<Optional Port, default is 3000>
+
+  To view a single database, set the following.
+    export HUBOT_CLOUDANT_HOST=<Cloudant credentials value for "host">
+    export HUBOT_CLOUDANT_KEY=<Cloudant API key>
+    export HUBOT_CLOUDANT_PASSWORD=<Cloudant database name>
+    export HUBOT_CLOUDANT_DB=<Cloudant database name>
+    export PORT=<Optional Port, default is 3000>
+
+5. Run `npm install` to obtain all the dependent node modules.
 
 ## Running the UI Locally
 
