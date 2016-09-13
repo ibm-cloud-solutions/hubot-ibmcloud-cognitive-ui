@@ -41,18 +41,21 @@ Beyond the UI implemented in this project is a lot of interaction with the [Clou
 
 4. Per the values above, update the environment variable settings in the file `config/env`.
   To view multiple databases from your Cloudant account, set the following environment variables.
-
+```  
     export CLOUDANT_USERNAME=<Cloudant credentials value for "username">
     export CLOUDANT_PASSWORD=<Cloudant credentials value for "password">
     export PORT=<Optional Port, default is 3000>
+```
 
   To view a single database, set the following.
 
+```
     export HUBOT_CLOUDANT_HOST=<Cloudant credentials value for "host">
     export HUBOT_CLOUDANT_KEY=<Cloudant API key>
     export HUBOT_CLOUDANT_PASSWORD=<Cloudant database name>
     export HUBOT_CLOUDANT_DB=<Cloudant database name>
     export PORT=<Optional Port, default is 3000>
+```
 
 5. Run `npm install` to obtain all the dependent node modules.
 
