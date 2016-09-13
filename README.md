@@ -47,6 +47,7 @@ Beyond the UI implemented in this project is a lot of interaction with the [Clou
     export PORT=<Optional Port, default is 3000>
 
   To view a single database, set the following.
+
     export HUBOT_CLOUDANT_HOST=<Cloudant credentials value for "host">
     export HUBOT_CLOUDANT_KEY=<Cloudant API key>
     export HUBOT_CLOUDANT_PASSWORD=<Cloudant database name>
