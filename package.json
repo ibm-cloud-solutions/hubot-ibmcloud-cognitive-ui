@@ -63,6 +63,7 @@
     "bluemix",
     "cloud",
     "ibm cloud",
-    "ibm"
+    "ibm",
+    "hubot-scripts"
   ]
 }
