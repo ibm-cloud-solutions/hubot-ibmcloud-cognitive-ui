@@ -14,7 +14,7 @@ module.exports = {
 		filename: 'bundle.js'
 	},
 	debug: true,
-	devtool: "#eval-source-map",
+	devtool: '#eval-source-map',
 	plugins: [
 		new webpack.ProvidePlugin({
 			riot: 'riot'
@@ -26,13 +26,13 @@ module.exports = {
 		],
 		loaders: [
 			{
-		        test: /\.(jpe?g|png|gif|svg)$/i,
-		        loaders: [
-		            'file?hash=sha512&digest=hex&name=[hash].[ext]',
-		            'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+		        																																																																																																				test: /\.(jpe?g|png|gif|svg)$/i,
+		        																																																																																																				loaders: [
+		            																																																		'file?hash=sha512&digest=hex&name=[hash].[ext]',
+		            																																																		'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
 		        ]
-		    },
-			{ test: /\.css$/, loader: "style-loader!css-loader" },
+			},
+			{ test: /\.css$/, loader: 'style-loader!css-loader' },
       		{ test: /\.js$|\.tag$/, exclude: /node_modules/, loader: 'babel-loader' },
 			{ test: /\.json$/, loader: 'json-loader'}
 		]

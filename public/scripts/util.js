@@ -16,32 +16,31 @@ function handleErrors(response, observable) {
 	return response;
 }
 
-/*
-module.exports.getDBData = function(path, observable, startkey_docid, limit){
-if (startkey_docid && count)
-path = `${path}?startkey_docid=${startkey_docid}&limit=${limit}`;
-return fetch(path)
-.then((response) => handleErrors(response, observable))
-.then((response) => {
-return response.json();
-})
-.catch(function(e){
-console.log('getDBData failed');
-});
-};*/
-
-
 module.exports.getDBs = function(observable) {
-	return fetch('/api/dbs/')
+	return fetch('/training/api/dbs/')
 	.then((response) => handleErrors(response, observable))
 	.then((response) => {
 		return response.json();
 	})
 	.catch(function(e) {
 		console.log('getDBs failed');
+		console.log(e);
 	});
 };
-module.exports.getDBData = function(path, observable, page, limit){
+
+module.exports.loadRequestedDB = function(db, observable) {
+	return fetch('/training/api/loadDB/' + db)
+	.then((response) => handleErrors(response, observable))
+	.then((response) => {
+		return response.json;
+	})
+	.catch(function(e) {
+		console.log('loadRequestedDB failed');
+	});
+};
+
+module.exports.getDBData = function(type, db, observable, page, limit){
+	let path = `/training/api/favorites/${type}/${db}`;
 	if (page && limit) {
 		path = `${path}?page=${page}&limit=${limit}`;
 	}

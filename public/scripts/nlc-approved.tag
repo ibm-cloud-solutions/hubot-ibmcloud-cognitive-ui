@@ -103,7 +103,8 @@
 					showTable: false
 				});
 				self.observable.trigger('startSpinning');
-				util.getDBData(`/api/favorites/approved/` + self.db_name, self.observable,1,limit).then((res) => {
+				// util.getDBData(`/api/favorites/approved/` + self.db_name, self.observable,1,limit).then((res) => {
+				util.getDBData('approved', self.db_name, self.observable, 1, limit).then((res) => {
 					self.observable.trigger('stopSpinning');
 					data = res.data;
 					self.update({
@@ -124,7 +125,8 @@
 					showTable: false
 				})
 				self.observable.trigger('startSpinning');
-				util.getDBData(`/api/favorites/approved/` + self.db_name, self.observable, page, limit).then(function(res) {
+				// util.getDBData(`/api/favorites/approved/` + self.db_name, self.observable, page, limit).then(function(res) {
+				util.getDBData('approved', self.db_name, self.observable, page, limit).then(function(res) {
 					data = res.data;
 					self.observable.trigger('stopSpinning');
 					self.update({

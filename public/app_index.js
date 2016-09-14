@@ -10,7 +10,7 @@ require('riotgear');
 require('./scripts/app.tag');
 
 const hub = {
-    observable: riot.observable()
+	observable: riot.observable()
 };
 
 riot.mixin('hub', hub);

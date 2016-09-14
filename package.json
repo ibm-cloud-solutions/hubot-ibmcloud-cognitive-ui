@@ -3,6 +3,7 @@
   "version": "0.0.2",
   "description": "UI for Cognitive Training",
   "author": "ibm-cloud-solutions",
+	"main": "app.js",
   "scripts": {
     "start": "node app.js",
     "test": ". test/.env && mocha",
