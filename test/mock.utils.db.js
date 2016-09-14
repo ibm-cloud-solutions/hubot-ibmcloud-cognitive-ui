@@ -22,7 +22,7 @@ const dbApprovedResults = require(path.resolve(__dirname, 'resources', 'test.db.
 const dbLearnedResults = require(path.resolve(__dirname, 'resources', 'test.db.learned.json'));
 const dbUnclassifiedResults = require(path.resolve(__dirname, 'resources', 'test.db.unclassified.json'));
 const dbDocResults = require(path.resolve(__dirname, 'resources', 'test.db.doc.json'));
-
+const dbResults = require(path.resolve(__dirname, 'resources', 'test.db.dbs.json'));
 
 module.exports = {
 
@@ -31,7 +31,8 @@ module.exports = {
 			.persist();
 		dbScope.get('/')
 			.reply(200, {couchdb: 'Welcome', version: '1.0.2', cloudant_build: '2580'});
-
+		dbScope.get('/_all_dbs')
+			.reply(200, dbResults);
 		dbScope.post('/nlc/_design/getByType/_view/getByApproved', function(body) {
 			if (body.keys[0][1] === true)
 				return true;

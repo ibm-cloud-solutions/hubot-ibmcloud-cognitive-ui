@@ -22,9 +22,14 @@ describe('test cloudant', function(){
 		request.get('/')
 			.expect(200, done);
 	});
-
+	it('get `/api/dbs/`, should return 200', function(done) {
+		request.get('/api/dbs/').then(function(res) {
+			expect(200);
+			done();
+		});
+	});
 	it('get `/api/favorites/approved/`, should return 200', function(done) {
-		request.get('/api/favorites/approved/nlc').then(function(res) {
+		request.get('/api/favorites/approved/nlc/').then(function(res) {
 			expect(200);
 			expect(res.body.data[0].id).to.eql('291DAC65-AC46-A2B3-85A5-4975F9F02752');
 			done();
@@ -45,7 +50,7 @@ describe('test cloudant', function(){
 		});
 	});
 
-	it('post `/api/favorites`, should return 200', function(done) {
+	it('post `/api/favorites/`, should return 200', function(done) {
 		request.post('/api/favorites/nlc')
 			.send('id=44390674-1A94-E09A-C445-E7971E414423&text=hubot%20can%20you%20list%20my%20apps%3F&approved=1469652249102&selectedClass=app.list')
 			.expect(200, done);

@@ -35,21 +35,10 @@ module.exports.getDBs = function(observable) {
 	return fetch('/api/dbs/')
 	.then((response) => handleErrors(response, observable))
 	.then((response) => {
-		console.log('getDBs returnes ' + response.json);
 		return response.json();
 	})
 	.catch(function(e) {
 		console.log('getDBs failed');
-	});
-};
-module.exports.loadRequestedDB = function(db, observable) {
-	return fetch('/api/loadDB/' + db)
-	.then((response) => handleErrors(response, observable))
-	.then((response) => {
-		return response.json;
-	})
-	.catch(function(e) {
-		console.log('loadRequestedDB failed');
 	});
 };
 module.exports.getDBData = function(path, observable, page, limit){
