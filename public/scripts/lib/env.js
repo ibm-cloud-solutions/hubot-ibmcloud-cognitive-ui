@@ -11,7 +11,8 @@ const settings = {
 	dbName: process.env.HUBOT_CLOUDANT_DB,
 	dbKey: process.env.HUBOT_CLOUDANT_KEY,
 	username: process.env.CLOUDANT_USERNAME,
-	userpass: process.env.CLOUDANT_PASSWORD
+	userpass: process.env.CLOUDANT_PASSWORD,
+	standalone: process.env.STANDALONE_APP || false
 };
 
 // gracefully output message and exit if any required config is undefined

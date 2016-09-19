@@ -28,7 +28,7 @@ Beyond the UI implemented in this project is a lot of interaction with the [Clou
 
   <img src="/docs/images/BluemixCloudantLaunch.png" width="500">
 
-  Click `Service Credentials` in the left panel.  The values for `username` and `password` will map to several environment variables needed shortly.
+  Click `Service Credentials` in the left panel.  The values for `username`, `password`, and `host` will map to several environment variables needed shortly.
 
 2. UI can either be used to view a single database or multiple databases available in your Cloudant account.
 
@@ -48,14 +48,18 @@ Beyond the UI implemented in this project is a lot of interaction with the [Clou
   ```
 
   To view a single database, set the following.
-
   ```
     export HUBOT_CLOUDANT_HOST=<Cloudant credentials value for "host">
     export HUBOT_CLOUDANT_KEY=<Cloudant API key>
-    export HUBOT_CLOUDANT_PASSWORD=<Cloudant database name>
+    export HUBOT_CLOUDANT_PASSWORD=<Cloudant database password>
     export HUBOT_CLOUDANT_DB=<Cloudant database name>
     export PORT=<Optional Port, default is 3000>
   ```
+
+	Set the following environment variable to `true` if this UI is run as a standalone app or `false` if this UI is run as part of Hubot. The default value is `false` if not set.
+	```
+		export STANDALONE_APP=<true if standalone, or false if not>
+	```
 
 5. Run `npm install` to obtain all the dependent node modules.
 
@@ -64,7 +68,7 @@ Beyond the UI implemented in this project is a lot of interaction with the [Clou
 ```
 npm run start:dev
 ```
-Go to http://localhost:3000 in the browser, substituting 3000 with the value for `PORT` in the environment variables if that option was taken.
+Go to http://localhost:3000/training in the browser, substituting 3000 with the value for `PORT` in the environment variables if that option was taken.
 
 ## License
 

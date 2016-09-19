@@ -40,7 +40,7 @@ module.exports.loadRequestedDB = function(db, observable) {
 };
 
 module.exports.getDBData = function(type, db, observable, page, limit){
-	let path = `/training/api/favorites/${type}/${db}`;
+	let path = `/training/api/${type}/${db}`;
 	if (page && limit) {
 		path = `${path}?page=${page}&limit=${limit}`;
 	}
@@ -114,7 +114,7 @@ module.exports.deleteItem = function(doc, data, db_name, observable){
 		});
 
 		if (doc.id){
-			return self.deleteDBData('/api/favorites/' + db_name, doc.id, observable).then(() => {
+			return self.deleteDBData('/training/api/' + db_name, doc.id, observable).then(() => {
 				resolve(newData);
 			});
 		}
@@ -135,9 +135,9 @@ module.exports.acceptItem = function(doc, db_name, observable) {
 		delete doc.newSelectedClass;
 	}
 	if (doc.id){
-		return self.putDBData('/api/favorites/' + db_name, doc, observable);
+		return self.putDBData('/training/api/' + db_name, doc, observable);
 	}
 	else {
-		return self.postDBData('/api/favorites/' + db_name, doc, observable);
+		return self.postDBData('/training/api/' + db_name, doc, observable);
 	}
 };

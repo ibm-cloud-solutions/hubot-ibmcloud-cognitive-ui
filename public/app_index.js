@@ -15,7 +15,7 @@ const hub = {
 
 riot.mixin('hub', hub);
 
-riot.route.base('/');
+riot.route.base('/training/');
 riot.mount('app');
 
 riot.route.start(true);
