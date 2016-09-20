@@ -23,8 +23,7 @@ module.exports.getDBs = function(observable) {
 		return response.json();
 	})
 	.catch(function(e) {
-		console.log('getDBs failed');
-		console.log(e);
+		console.log('getDBs failed', e);
 	});
 };
 

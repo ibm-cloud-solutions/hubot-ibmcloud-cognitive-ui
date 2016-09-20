@@ -47,7 +47,6 @@
 			showRate: false
 		})
 		self.observable.trigger('startSpinning');
-		// util.getDBData('/api/favorites/stats/' + self.db_name, self.observable).then(function(res) {
 		util.getDBData('stats', self.db_name, self.observable).then(function(res) {
 			self.observable.trigger('stopSpinning');
 			self.successRate = res.nClassified.toPrecision(4);
