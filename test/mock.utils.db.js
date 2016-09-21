@@ -33,6 +33,19 @@ module.exports = {
 			.reply(200, {couchdb: 'Welcome', version: '1.0.2', cloudant_build: '2580'});
 		dbScope.get('/_all_dbs')
 			.reply(200, dbResults);
+		dbScope.get('/test/_design/getByType').reply(200, {});
+
+		let initialized = false;
+		dbScope.get('/nlc/_design/getByType').reply(function(){
+			if (initialized){
+				return [200, {}];
+			}
+			else {
+				initialized = true;
+				return [404, {}];
+			}
+		});
+
 		dbScope.post('/nlc/_design/getByType/_view/getByApproved', function(body) {
 			if (body.keys[0][1] === true)
 				return true;
