@@ -33,6 +33,8 @@ module.exports = {
 			.reply(200, {couchdb: 'Welcome', version: '1.0.2', cloudant_build: '2580'});
 		dbScope.get('/_all_dbs')
 			.reply(200, dbResults);
+		dbScope.get('/test/botInfo')
+				.reply(200, {});
 		dbScope.get('/test/_design/getByType').reply(200, {});
 
 		let initialized = false;

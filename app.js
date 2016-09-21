@@ -63,37 +63,44 @@ function listAllDbs() {
 		const p = allDbs.map(dbId => new Promise((resolve, reject) => {
 			db = cloudant.use(dbId);
 			db.get(id, (err, doc) => {
-				if (err) {
-					// Add design document "_design/getByType" if it doesn't exist.
-					if (err.statusCode === 404){
-						let doc = {
-							views: {
-								getByApproved: {
-									map: 'function(doc) { if (doc.approved) { emit([doc.type, true]); } else { emit([doc.type, false]);}}'
-								}
-							},
-							language: 'javascript',
-							_id: '_design/getByType'
-						};
-
-						db.insert(doc, function(e, body){
-							if (e){
-								resolve(undefined);
-							}
-							else {
-								logger.info(`Created design document ${id}`);
-								resolve(dbId);
-							}
-						});
-
-					}
-					else {
-						logger.error(`Error getting design document ${id}`, err);
-						resolve(undefined);
-					}
-				}
-				else {
+				if (!err){
 					resolve(dbId);
+				}
+				// Add design document "_design/getByType" if it doesn't exist.
+				else if (err.statusCode === 404){
+					// Look for botInfo document to confirm this is a cognitive training database.
+					db.get('botInfo', (e, info) => {
+						if (!e) {
+							let doc = {
+								views: {
+									getByApproved: {
+										map: 'function(doc) { if (doc.approved) { emit([doc.type, true]); } else { emit([doc.type, false]);}}'
+									}
+								},
+								language: 'javascript',
+								_id: '_design/getByType'
+							};
+
+							db.insert(doc, function(e, body){
+								if (e){
+									resolve(undefined);
+								}
+								else {
+									logger.info(`Created design document ${id}`);
+									resolve(dbId);
+								}
+							});
+						}
+						else {
+							logger.info(`Database [${id}] doesn't appear to be a cognitive training db.`);
+							resolve(undefined);
+						}
+					});
+				}
+				// Unknown error getting design document.
+				else {
+					logger.error(`Error getting design document ${id}`, err);
+					resolve(undefined);
 				}
 			});
 		}));
