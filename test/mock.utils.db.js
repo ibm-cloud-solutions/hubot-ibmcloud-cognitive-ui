@@ -67,6 +67,13 @@ module.exports = {
 		.query(true)
 		.reply(200, dbUnclassifiedResults);
 
+		dbScope.post('/nlc/_design/getByType/_view/getByApproved', function(body) {
+			if (body.keys[0][1] === false && body.keys[0][0] === 'classified')
+				return true;
+		})
+		.query(true)
+		.reply(200, {rows: [{}]});
+
 		dbScope.post('/nlc', {
 			classification: {
 				text: 'hubot can you list my apps?'
