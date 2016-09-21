@@ -66,4 +66,11 @@ describe('test cloudant', function(){
 			.send('id=9ed9075fe3d7fd7eab83440b1c4e7461&text=can%20you%20list%20my%20apps%3F&approved=1469652249102&selectedClass=app.list')
 			.expect(200, done);
 	});
+	it('get `/api/favorites/stats`, should return 200', function(done) {
+		request.get('/api/favorites/stats/nlc').then(function(res) {
+			expect(200);
+			expect(res.body.nClassified).to.eql(50);
+			done();
+		});
+	});
 });
