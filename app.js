@@ -86,20 +86,20 @@ function listAllDbs() {
 									resolve(undefined);
 								}
 								else {
-									logger.info(`Created design document ${id}`);
+									logger.info(`Created design document [${id}] in database [${dbId}].`);
 									resolve(dbId);
 								}
 							});
 						}
 						else {
-							logger.info(`Database [${id}] doesn't appear to be a cognitive training db.`);
+							logger.info(`Database [${dbId}] doesn't appear to be a cognitive training db.`);
 							resolve(undefined);
 						}
 					});
 				}
 				// Unknown error getting design document.
 				else {
-					logger.error(`Error getting design document ${id}`, err);
+					logger.error(`Error getting design document [${id}] from database [${dbId}].`, err);
 					resolve(undefined);
 				}
 			});
