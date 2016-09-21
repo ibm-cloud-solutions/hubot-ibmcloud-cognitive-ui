@@ -25,7 +25,11 @@ const logger = new winston.Logger({
 	transports: [
 		new winston.transports.Console({
 			handleExceptions: true,
-			json: true
+			prettyPrint: true,
+			colorize: true,
+			timestamp: function(){
+				return '[' + new Date().toDateString() + ' ' + new Date().toTimeString() + ']';
+			}
 		})
 	],
 	exitOnError: false
