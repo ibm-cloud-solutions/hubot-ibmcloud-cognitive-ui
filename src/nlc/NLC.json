@@ -1,0 +1,17 @@
+{
+	"name": "hubot-ibmcloud-cognitive-ui",
+	"version": "0.0.1",
+	"classes": [
+		{
+	      "class": "nlc.training.ui",
+	      "description": "Show UI used to help train the natural language classifier",
+	      "emittarget": "nlc.training.ui",
+	      "texts": [
+					"Show NLC training UI",
+					"I need help training NLC",
+					"URL to train natural language",
+					"Web app for training"
+		  ]
+		}
+	]
+}

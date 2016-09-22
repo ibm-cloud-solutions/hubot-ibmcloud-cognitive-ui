@@ -35,9 +35,9 @@ app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.join(__dirname, 'public')));
 
-if (env.standalone) {
+if (env.appHost !== 'hubot') {
 	// bodyParser and methodOverride are different in Express 3 (hubot's version) and Express 4 (this app's version)
-	// need to only use bodyParser and methodOverride if this app is the primary app (using Express 4)
+	// need to only use bodyParser and methodOverride if this app is a standalone app (using Express 4)
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(bodyParser.json());
 	app.use(methodOverride());
