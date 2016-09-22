@@ -68,15 +68,19 @@ Follow these steps if you would like to run the Cognitive UI as a standalone app
 
   Click `Service Credentials` in the left panel.
 3. Update the environment variable settings in the file `config/env`.
+
   ```
     export CLOUDANT_USERNAME=<Cloudant credentials value for "username">
     export CLOUDANT_PASSWORD=<Cloudant credentials value for "password">
     export PORT=<Optional Port, default is 3000>
   ```
+
 4. To run the UI Locally
+
 	```
 	npm run start:dev
 	```
+
 	Go to http://localhost:3000/training in the browser, substituting 3000 with the value for `PORT` in the environment variables if that option was taken.
 
 ## License
