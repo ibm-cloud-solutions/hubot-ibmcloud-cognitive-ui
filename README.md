@@ -12,8 +12,8 @@ In general, enabling a bot for natural language involves early manual training, 
 
  * [Prerequisites](#prerequisites)
  * [Integration with Hubot](#integration-with-hubot)
- 		* [Configuration Setup](#configuration-setup)
-		* [Commands](#commands)
+ 	* [Configuration Setup](#configuration-setup)
+  * [Commands](#commands)
  * [Standalone App](#standalone-app)
  * [License](#license)
  * [Contribute](#contribute)
@@ -31,31 +31,31 @@ Follow these steps if you would like to integrate the Cognitive UI into your hub
 4. Add the necessary environment variables:
 
 ### Configuration Setup
-	1. Identify your Cloudant credentials.<br>
-	  From the Bluemix dashboard, click on your Cloudant NoSQL DB service instance.  You should see something like the following:
+1. Identify your Cloudant credentials.<br>
+  From the Bluemix dashboard, click on your Cloudant NoSQL DB service instance.  You should see something like the following:
 
-	  <img src="/docs/images/BluemixCloudantLaunch.png" width="500">
+  <img src="/docs/images/BluemixCloudantLaunch.png" width="500">
 
-	  Click `Service Credentials` in the left panel.  The value for `host` will map to an environment variables needed shortly.
+  Click `Service Credentials` in the left panel.  The value for `host` will map to an environment variables needed shortly.
 
-	2. Identify the Cloudant key and database value.<br>
-	  From the same dashboard listed in the previous step, click the `Launch` button to bring up the Cloudant dashboard.  You should see something like the following:
+2. Identify the Cloudant key and database value.<br>
+  From the same dashboard listed in the previous step, click the `Launch` button to bring up the Cloudant dashboard.  You should see something like the following:
 
-	  <img src="/docs/images/CloudantDashboard.png" width="400">
+  <img src="/docs/images/CloudantDashboard.png" width="400">
 
-	  With `Databases` selected on the left, find the name of the database that was created and associated with `hubot-ibmcloud-cognitive-lib`.  Click on that name to see the details.  Then click `Permissions` where you'll find the API Key on the right.  Both the database name and API key are used below.
+  With `Databases` selected on the left, find the name of the database that was created and associated with `hubot-ibmcloud-cognitive-lib`.  Click on that name to see the details.  Then click `Permissions` where you'll find the API Key on the right.  Both the database name and API key are used below.
 
-	3. Update the environment variable settings in the file `config/env`.
-	  ```
-	    export HUBOT_CLOUDANT_HOST=<Cloudant credentials value for "host">
-	    export HUBOT_CLOUDANT_KEY=<Cloudant API key>
-	    export HUBOT_CLOUDANT_PASSWORD=<Cloudant database password>
-	    export HUBOT_CLOUDANT_DB=<Cloudant database name>
-	  ```
+3. Update the environment variable settings in the file `config/env`.
+  ```
+    export HUBOT_CLOUDANT_HOST=<Cloudant credentials value for "host">
+    export HUBOT_CLOUDANT_KEY=<Cloudant API key>
+    export HUBOT_CLOUDANT_PASSWORD=<Cloudant database password>
+    export HUBOT_CLOUDANT_DB=<Cloudant database name>
+  ```
 5. Start up your bot & off to the races!
 
 ### Commands
-		- `hubot training ui` - Provides the URL to the `hubot-ibmcloud-cognitive-ui` app
+- `hubot training ui` - Provides the URL to the `hubot-ibmcloud-cognitive-ui` app
 
 ## Standalone App
 Follow these steps if you would like to run the Cognitive UI as a standalone app:
@@ -69,7 +69,7 @@ Follow these steps if you would like to run the Cognitive UI as a standalone app
 3. Update the environment variable settings in the file `config/env`.
   ```
     export CLOUDANT_USERNAME=<Cloudant credentials value for "username">
-		export CLOUDANT_PASSWORD=<Cloudant credentials value for "password">
+    export CLOUDANT_PASSWORD=<Cloudant credentials value for "password">
     export PORT=<Optional Port, default is 3000>
   ```
 4. To run the UI Locally
