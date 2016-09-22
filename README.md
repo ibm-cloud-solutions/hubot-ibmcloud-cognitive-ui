@@ -59,6 +59,7 @@ Follow these steps if you would like to integrate the Cognitive UI into your hub
 
 ## Standalone App
 Follow these steps if you would like to run the Cognitive UI as a standalone app:
+
 1. Run `npm install` to obtain all the dependent node modules
 2. Identify your Cloudant credentials.<br>
   From the Bluemix dashboard, click on your Cloudant NoSQL DB service instance.  You should see something like the following:
