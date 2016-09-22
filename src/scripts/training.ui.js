@@ -2,10 +2,10 @@
 //	Listens for commands to initiate actions against Bluemix
 //
 // Configuration:
-//	 HUBOT_WATSON_NLC_URL api for the Watson Natural Language Classifier service
-//	 HUBOT_WATSON_NLC_USERNAME user ID for the Watson NLC service
-//	 HUBOT_WATSON_NLC_PASSWORD password for the Watson NLC service
-//	 HUBOT_WATSON_NLC_CLASSIFIER name of the classifier for Watson NLC service
+//   HUBOT_CLOUDANT_HOST url for cloudant account with NLC training data
+//   HUBOT_CLOUDANT_KEY key associated with NLC training data db
+//   HUBOT_CLOUDANT_PASSWORD password associated with NLC training data db
+//   HUBOT_CLOUDANT_DB name of NLC training db
 //
 // Author:
 //   mbecvarik
