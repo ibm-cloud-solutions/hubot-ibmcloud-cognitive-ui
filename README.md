@@ -13,7 +13,7 @@ In general, enabling a bot for natural language involves early manual training, 
  * [Prerequisites](#prerequisites)
  * [Integration with Hubot](#integration-with-hubot)
  	* [Configuration Setup](#configuration-setup)
-  * [Commands](#commands)
+ * [Commands](#commands)
  * [Standalone App](#standalone-app)
  * [License](#license)
  * [Contribute](#contribute)
