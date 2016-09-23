@@ -16,10 +16,10 @@
   * US Government Users Restricted Rights - Use, duplication or
   * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
   */
+'use strict';
 
 const path = require('path');
 const TAG = path.basename(__filename);
-// const env = require(path.resolve(__dirname, '..', 'lib', 'env'));
 const cfenv = require('cfenv');
 
 // --------------------------------------------------------------
