@@ -26,7 +26,7 @@ const i18n = new (require('i18n-2'))({
 // At some point we need to toggle this setting based on some user input.
 i18n.setLocale('en');
 
-process.env.COGNITIVE_UI_BASE = 'hubot';
+process.env.STANDALONE_APP = false;
 
 // Passing arrow functions to mocha is discouraged: https://mochajs.org/#arrow-functions
 // return promises from mocha tests rather than calling done() - http://tobyho.com/2015/12/16/mocha-with-promises/
@@ -58,8 +58,9 @@ describe('Interacting with Training UI via RegEx', function() {
 
 		it('should respond with training ui url', function() {
 			expect(room.messages.length).to.eql(2);
-			let url = 'NLC Training URL: http://localhost:8080/training';
-			expect(room.messages[1]).to.eql(['hubot', '@mimiron \n' + url]);
+			let response = room.messages[1];
+			let url = 'http://localhost:8080/training';
+			expect(response).to.eql(['hubot', '@mimiron ' + i18n.__('nlc.training.ui.success', url)]);
 		});
 	});
 });

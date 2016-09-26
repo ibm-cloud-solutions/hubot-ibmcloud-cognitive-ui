@@ -19,7 +19,6 @@
 
 const path = require('path');
 const TAG = path.basename(__filename);
-// const env = require(path.resolve(__dirname, '..', 'lib', 'env'));
 const cfenv = require('cfenv');
 
 // --------------------------------------------------------------
@@ -70,7 +69,9 @@ module.exports = (robot) => {
 			}
 			url = 'http://localhost:' + port;
 		}
-		let message = '\nNLC Training URL: ' + url + '/training';
-		robot.emit('ibmcloud.formatter', {response: res, message: message});
+		url += '/training';
+
+		let message = i18n.__('nlc.training.ui.success', url);
+		robot.emit('ibmcloud.formatter', { response: res, message: message});
 	}
 };

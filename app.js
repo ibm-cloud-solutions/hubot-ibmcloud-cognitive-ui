@@ -14,7 +14,7 @@ const http = require('http');
 const path = require('path');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
-const env = require('./public/scripts/lib/env');
+const env = require('./src/lib/env');
 const Cloudant = require('cloudant');
 const winston = require('winston');
 
@@ -124,7 +124,7 @@ app.get('/training/api/dbs/', function(request, response) {
 		return listAllDbs().then(dbs => response.status(200).send(dbs));
 	}
 	else {
-		let url = `https://${env.dbKey}:${env.dbPassword}@${env.dbHost}`;
+		let url = `https://${env.dbKey}:${env.dbPassword}@${env.dbEndpoint}`;
 		cloudant = Cloudant(url);
 		let list = [ env.dbName ];
 		response.status(200).send(list);

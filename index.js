@@ -4,7 +4,7 @@
   * US Government Users Restricted Rights - Use, duplication or
   * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
   */
-process.env.COGNITIVE_UI_HOST = 'hubot';
+process.env.STANDALONE_APP = false;
 const ui = require('./app.js');
 const fs = require('fs');
 const path = require('path');

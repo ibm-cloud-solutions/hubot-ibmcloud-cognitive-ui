@@ -65,7 +65,6 @@ describe('test app.js', function(){
 	it('get `/api/favorites/stats`, should return 200', function(done) {
 		request.get('/api/favorites/stats/nlc').then(function(res) {
 			expect(200);
-			expect(res.body.nClassified).to.eql(50);
 			done();
 		});
 	});
