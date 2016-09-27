@@ -5,6 +5,9 @@
   * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
   */
 
+/* eslint strict: "off" */
+'use strict';
+
 const Helper = require('hubot-test-helper');
 const helper = new Helper('../src/scripts');
 const expect = require('chai').expect;
