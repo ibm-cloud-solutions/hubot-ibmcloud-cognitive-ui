@@ -93,8 +93,7 @@
 					showTable: false
 				});
 				self.observable.trigger('startSpinning');
-				var url = `/api/favorites/learned/` + self.db_name;
-				util.getDBData(url , self.observable, 1, limit).then(function(res) {
+				util.getDBData('learned', self.db_name, self.observable, 1, limit).then(function(res) {
 					self.observable.trigger('stopSpinning');
 					data = res.data;
 					self.update({
@@ -113,7 +112,7 @@
 		self.acceptItem = function(ev) {
 			let doc = ev.item.doc;
 			// get new class value
-			doc.newSelectedClass = this[`${doc.id}_class_input`].value;
+			doc.newSelectedClass = document.getElementById(doc.id + '_class_input').value;
 			return util.acceptItem(doc, self.db_name,  self.observable).then(() => {
 				self.data = [];
 				return self.loadLearned();
@@ -146,7 +145,7 @@
 					showTable: false
 				})
 				self.observable.trigger('startSpinning');
-				util.getDBData(`/api/favorites/learned/` + self.db_name, self.observable, page, limit).then(function(res) {
+				util.getDBData('learned', self.db_name, self.observable, page, limit).then(function(res) {
 					data = res.data;
 					self.observable.trigger('stopSpinning');
 					self.update({

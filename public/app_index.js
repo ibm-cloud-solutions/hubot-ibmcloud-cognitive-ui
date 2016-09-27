@@ -10,12 +10,12 @@ require('riotgear');
 require('./scripts/app.tag');
 
 const hub = {
-    observable: riot.observable()
+	observable: riot.observable()
 };
 
 riot.mixin('hub', hub);
 
-riot.route.base('/');
+riot.route.base('/training/');
 riot.mount('app');
 
 riot.route.start(true);

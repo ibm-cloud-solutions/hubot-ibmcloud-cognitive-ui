@@ -9,7 +9,7 @@
 
 <nlc-spinner>
 	<div if={ showSpinner }>
-		<img class='loadingImage' src='../images/loading.gif' style="display: block; margin: 0 auto;"></img>
+		<img class='loadingImage' src='../training/images/loading.gif' style="display: block; margin: 0 auto;"></img>
 	</div>
 	<script>
 		const self = this;

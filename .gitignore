@@ -2,4 +2,5 @@ env
 node_modules
 config
 manifest.yml
+databases
 gh-pages

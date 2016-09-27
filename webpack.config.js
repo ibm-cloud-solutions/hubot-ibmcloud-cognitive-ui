@@ -5,16 +5,16 @@
   * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
   */
 
-var webpack = require('webpack');
+const webpack = require('webpack');
 
 module.exports = {
 	entry: './public/app_index',
 	output: {
-		path: __dirname + '/public',
+		path: __dirname + '/public/training',
 		filename: 'bundle.js'
 	},
 	debug: true,
-	devtool: "#eval-source-map",
+	devtool: '#eval-source-map',
 	plugins: [
 		new webpack.ProvidePlugin({
 			riot: 'riot'
@@ -22,18 +22,18 @@ module.exports = {
 	],
 	module: {
 		preLoaders: [
-      		{ test: /\.tag$/, exclude: /node_modules/, loader: 'riotjs-loader', query: { type: 'babel' } }
+			{ test: /\.tag$/, exclude: /node_modules/, loader: 'riotjs-loader', query: { type: 'babel' } }
 		],
 		loaders: [
 			{
-		        test: /\.(jpe?g|png|gif|svg)$/i,
-		        loaders: [
-		            'file?hash=sha512&digest=hex&name=[hash].[ext]',
-		            'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
-		        ]
-		    },
-			{ test: /\.css$/, loader: "style-loader!css-loader" },
-      		{ test: /\.js$|\.tag$/, exclude: /node_modules/, loader: 'babel-loader' },
+				test: /\.(jpe?g|png|gif|svg)$/i,
+				loaders: [
+					'file?hash=sha512&digest=hex&name=[hash].[ext]',
+					'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+				]
+			},
+			{ test: /\.css$/, loader: 'style-loader!css-loader' },
+      { test: /\.js$|\.tag$/, exclude: /node_modules/, loader: 'babel-loader' },
 			{ test: /\.json$/, loader: 'json-loader'}
 		]
 	},

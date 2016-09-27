@@ -14,12 +14,11 @@ const http = require('http');
 const path = require('path');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
-const env = require('./public/scripts/lib/env');
+const env = require('./src/lib/env');
 const Cloudant = require('cloudant');
 const winston = require('winston');
 
 const app = express();
-
 
 const logger = new winston.Logger({
 	transports: [
@@ -35,15 +34,24 @@ const logger = new winston.Logger({
 	exitOnError: false
 });
 
-// all environments
-app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
+
+if (env.appHost !== 'hubot') {
+	// bodyParser and methodOverride are different in Express 3 (hubot's version) and Express 4 (this app's version)
+	// need to only use bodyParser and methodOverride if this app is a standalone app (using Express 4)
+	app.use(bodyParser.urlencoded({ extended: true }));
+	app.use(bodyParser.json());
+	app.use(methodOverride());
+	app.set('port', process.env.PORT || 3000);
+	http.createServer(app).listen(app.get('port'), '0.0.0.0', function() {
+		let port = app.get('port');
+		logger.info(`Express server listening on port ${port}`);
+	});
+}
+
 let cloudant;
 
 function listAllDbs() {
@@ -110,20 +118,20 @@ function listAllDbs() {
 	});
 	return p1;
 }
-app.get('/api/dbs/', function(request, response) {
+app.get('/training/api/dbs/', function(request, response) {
 	if (env.username) {
 		cloudant = Cloudant({account: env.username, password: env.userpass});
 		return listAllDbs().then(dbs => response.status(200).send(dbs));
 	}
 	else {
-		let url = `https://${env.dbKey}:${env.dbPassword}@${env.dbHost}`;
+		let url = `https://${env.dbKey}:${env.dbPassword}@${env.dbEndpoint}`;
 		cloudant = Cloudant(url);
 		let list = [ env.dbName ];
 		response.status(200).send(list);
 	}
 });
 
-app.get('/', routes.index);
+app.get('/training/', routes.index);
 
 let saveDocument = function(id, data, db_name, response) {
 	if (id === undefined) {
@@ -138,7 +146,7 @@ let saveDocument = function(id, data, db_name, response) {
 		selectedClass: data.selectedClass
 	}, id, function(err, doc) {
 		if (err) {
-			response.sendStatus(500);
+			response.send(500);
 		}
 		else {
 			response.status(200).send(doc);
@@ -147,11 +155,12 @@ let saveDocument = function(id, data, db_name, response) {
 	});
 };
 
-app.post('/api/favorites/:db_name', function(request, response) {
+app.post('/training/api/:db_name', function(request, response) {
 	logger.debug('Create Invoked..');
 	saveDocument(null, request.body, request.params.db_name, response);
 });
-app.delete('/api/favorites/:db_name', function(request, response) {
+
+app.delete('/training/api/:db_name', function(request, response) {
 	let id = request.query.id;
 	logger.debug(`Delete Invoked.. ID: ${id}`);
 	let	db = cloudant.use(request.params.db_name);
@@ -159,17 +168,17 @@ app.delete('/api/favorites/:db_name', function(request, response) {
 		if (!err) {
 			db.destroy(doc._id, doc._rev, function(err, res) {
 				if (err) {
-					response.sendStatus(500);
+					response.send(500);
 				}
 				else {
-					response.sendStatus(200);
+					response.send(200);
 				}
 			});
 		}
 	});
 });
 
-app.put('/api/favorites/:db_name', function(request, response) {
+app.put('/training/api/:db_name', function(request, response) {
 	let id = request.body.id;
 	logger.debug(`Update Invoked.. ID: ${id}`);
 	let	db = cloudant.use(request.params.db_name);
@@ -183,7 +192,9 @@ app.put('/api/favorites/:db_name', function(request, response) {
 					logger.error('Error inserting document into the database', err);
 					response.status(500).send(`Error inserting document into the database: ${err.message}`);
 				}
-				response.sendStatus(200);
+				else {
+					response.send(200);
+				}
 			});
 		}
 		else {
@@ -209,24 +220,21 @@ let parseClasses = function(classes, selectedClass) {
 		let contains = false;
 		for (let c in classList) {
 			if (classList[c].class_name === selectedClass) {
-				// classList[c].class_name += '*';
 				contains = true;
 				break;
 			}
 		}
 		if (!contains) {
 			let selectedClassObj = {
-				// class_name: selectedClass + '*',
 				confidence: 0
 			};
 			classList.push(selectedClassObj);
 		}
-		// selectedClass += '*';
 	}
 	return classList;
 };
 
-app.get('/api/favorites/learned/:db_name', function(request, response) {
+app.get('/training/api/learned/:db_name', function(request, response) {
 	logger.debug('Get learned type method invoked.. ');
 	let	db = cloudant.use(request.params.db_name);
 	db.view('getByType', 'getByApproved', {keys: [['learned', false]], include_docs: true}, function(err, body) {
@@ -256,11 +264,6 @@ app.get('/api/favorites/learned/:db_name', function(request, response) {
 				};
 				response.send(res);
 			});
-			/*
-			docList.sort(function(a, b) {
-			return b.ts - a.ts;
-		});*/
-		// response.send(docList);
 		}
 		else {
 			logger.error('Error getting view results', err);
@@ -269,7 +272,7 @@ app.get('/api/favorites/learned/:db_name', function(request, response) {
 	});
 });
 
-app.get('/api/favorites/unclassified/:db_name', function(request, response) {
+app.get('/training/api/unclassified/:db_name', function(request, response) {
 	logger.debug('Get unclassified type method invoked.. ');
 	let	db = cloudant.use(request.params.db_name);
 	db.view('getByType', 'getByApproved', {keys: [['unclassified', false]], include_docs: true, limit: request.query.limit, skip: (request.query.page - 1) * (request.query.limit)}, function(err, body) {
@@ -299,12 +302,6 @@ app.get('/api/favorites/unclassified/:db_name', function(request, response) {
 				};
 				response.send(res);
 			});
-
-			/*
-			docList.sort(function(a, b) {
-			return b.ts - a.ts;
-		});*/
-		// response.send(docList);
 		}
 		else {
 			logger.error('Error getting view results', err);
@@ -314,7 +311,7 @@ app.get('/api/favorites/unclassified/:db_name', function(request, response) {
 });
 
 
-app.get('/api/favorites/approved/:db_name', function(request, response) {
+app.get('/training/api/approved/:db_name', function(request, response) {
 	logger.debug('Get approved method invoked.. ');
 	let	db = cloudant.use(request.params.db_name);
 	db.view('getByType', 'getByApproved', {keys: [['learned', true], ['unclassified', true]], include_docs: true, limit: request.query.limit, skip: (request.query.page - 1) * (request.query.limit)}, function(err, body) {
@@ -341,11 +338,6 @@ app.get('/api/favorites/approved/:db_name', function(request, response) {
 				};
 				response.send(res);
 			});
-			/*
-			docList.sort(function(a, b) {
-			return b.approved - a.approved;
-		});*/
-		// response.send(docList);
 		}
 		else {
 			logger.error(err);
@@ -354,7 +346,7 @@ app.get('/api/favorites/approved/:db_name', function(request, response) {
 	});
 });
 
-app.get('/api/favorites/stats/:db_name', function(request, response) {
+app.get('/training/api/stats/:db_name', function(request, response) {
 	logger.debug('Get stats');
 	let numClassified = -1;
 	let numNotClassified = -1;
@@ -382,13 +374,7 @@ app.get('/api/favorites/stats/:db_name', function(request, response) {
 			logger.error('Error getting view results', err);
 			response.status(500).send(`Error getting view results: ${err.message}`);
 		}
-
 	});
-});
-
-http.createServer(app).listen(app.get('port'), '0.0.0.0', function() {
-	let port = app.get('port');
-	logger.info(`Express server listening on port ${port}`);
 });
 
 module.exports = app;
