@@ -107,7 +107,7 @@ function listAllDbs() {
 				}
 				// Unknown error getting design document.
 				else {
-					logger.error(`Error getting design document [${id}] from database [${dbId}].`, err);
+					logger.error(`Error getting design document [${designDocId}] from database [${dbId}].`, err);
 					resolve(undefined);
 				}
 			});
