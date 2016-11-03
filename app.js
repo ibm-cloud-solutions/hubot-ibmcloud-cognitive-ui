@@ -55,11 +55,11 @@ if (env.appHost !== 'hubot') {
 let cloudant;
 
 function listAllDbs() {
-	let id = '_design/getByType';
-	const p1 = new Promise((resolve, reject) => {
+	const designDocId = '_design/getByType';
+	return new Promise((resolve, reject) => {
 		cloudant.db.list(function(err, allDbs) {
 			if (err) {
-				console.log(err);
+				logger.error('Error loading databases', err);
 				reject(err);
 			}
 			else {
@@ -69,15 +69,15 @@ function listAllDbs() {
 	}).then(allDbs => {
 		const p = allDbs.map(dbId => new Promise((resolve, reject) => {
 			let db = cloudant.use(dbId);
-			db.get(id, (err, doc) => {
+			db.get(designDocId, (err, doc) => {
 				if (!err){
 					resolve(dbId);
 				}
 				// Add design document "_design/getByType" if it doesn't exist.
 				else if (err.statusCode === 404){
 					// Look for botInfo document to confirm this is a cognitive training database.
-					db.get('botInfo', (e, info) => {
-						if (!e) {
+					db.get('botInfo', (er, info) => {
+						if (!er) {
 							let doc = {
 								views: {
 									getByApproved: {
@@ -90,16 +90,17 @@ function listAllDbs() {
 
 							db.insert(doc, function(e, body){
 								if (e){
+									logger.error(`Error creating design document in database [${dbId}].`);
 									resolve(undefined);
 								}
 								else {
-									logger.info(`Created design document [${id}] in database [${dbId}].`);
+									logger.info(`Created design document [${designDocId}] in database [${dbId}].`);
 									resolve(dbId);
 								}
 							});
 						}
 						else {
-							logger.info(`Database [${dbId}] doesn't appear to be a cognitive training db.`);
+							logger.info(`Database [${dbId}] doesn't appear to be a cognitive training db. Couldn't find a document with id 'botInfo'.`);
 							resolve(undefined);
 						}
 					});
@@ -115,7 +116,6 @@ function listAllDbs() {
 	}).then(all => {
 		return all.filter(db => db !== undefined);
 	});
-	return p1;
 }
 app.get('/training/api/dbs/', function(request, response) {
 	if (env.username) {
