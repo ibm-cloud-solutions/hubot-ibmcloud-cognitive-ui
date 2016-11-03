@@ -55,7 +55,6 @@ if (env.appHost !== 'hubot') {
 let cloudant;
 
 function listAllDbs() {
-	let db;
 	let id = '_design/getByType';
 	const p1 = new Promise((resolve, reject) => {
 		cloudant.db.list(function(err, allDbs) {
@@ -69,7 +68,7 @@ function listAllDbs() {
 		});
 	}).then(allDbs => {
 		const p = allDbs.map(dbId => new Promise((resolve, reject) => {
-			db = cloudant.use(dbId);
+			let db = cloudant.use(dbId);
 			db.get(id, (err, doc) => {
 				if (!err){
 					resolve(dbId);
